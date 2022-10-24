@@ -21,7 +21,7 @@ public class GETpetById {
 
         //response object
 
-        Response response=httpRequest.request(Method.GET, "/4");
+        Response response=httpRequest.request(Method.GET, "/1");
 
         String responseBody = response.getBody().asString();
 
