@@ -12,15 +12,14 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 public class DDT_with_util {
-    public DDT_with_util() throws IOException {
-    }
+
 
     @Test(dataProvider = "empDataProvider")
-    public void addNewEmployees(String ename, String esal, String eage){
+    public void addNewEmployees(String ename, String esal, String eage) {
 
         RestAssured.baseURI = "https://dummy.restapiexample.com/api/v1";
 
-        RequestSpecification httpRequest=RestAssured.given();
+        RequestSpecification httpRequest = RestAssured.given();
 
         //here we created data which we can send along with the post request
         JSONObject requestParams = new JSONObject();
@@ -41,7 +40,7 @@ public class DDT_with_util {
         //capture response body to perform validations
         String responseBody = respone.getBody().asString();
 
-        System.out.println("Response body is:"+ responseBody);
+        System.out.println("Response body is:" + responseBody);
 
         Assert.assertEquals(responseBody.contains(ename), true);
         Assert.assertEquals(responseBody.contains(esal), true);
@@ -54,32 +53,29 @@ public class DDT_with_util {
     }
 
 
-    //data provider method
+//data provider method
 
-    @DataProvider(name="empDataProvider")
+    @DataProvider(name = "empDataProvider")
 
-    public Object [][] getEmpData() throws IOException {
+    public Object[][] getEmpData() throws IOException {
 
-    String path = System.getProperty("user.dir")+"/src/test/java/DataDrivenTesting/empdata.xlsx";
-    int rownum =  XLUtils.getRowCount(path, "Sheet1");
-    int colcount = XLUtils.getCellCount(path, "Sheet1", 1);
+        String path = System.getProperty("user.dir") + "/src/test/java/DataDrivenTesting/empdata.xlsx";
+        int rownum = XLUtils.getRowCount(path, "Sheet1");
+        int colcount = XLUtils.getCellCount(path, "Sheet1", 1);
 
 
-    String empdata [][]=new String[rownum][colcount];
-    for(int i=1; i<=rownum; i++){
-        for(int j=0; j<colcount; j++){
-            empdata[i-1][j]= XLUtils.getCellData(path, "Sheet1", i, j);
+        Object empdata[][] = new String[rownum][colcount];
+        for (int i = 1; i <= rownum; i++) {
+            for (int j = 0; j < colcount; j++) {
+                empdata[i - 1][j] = XLUtils.getCellData(path, "Sheet1", i, j);
+            }
         }
+
+
+        return (empdata);
     }
 
-
-//        Object [][] empdata ={{"maja", "100", "20"}, {"ana", "200", "30"}, {"eva", "400", "60"}};
-
-        return(empdata);
-   }
-
-
-
 }
+
 
 
